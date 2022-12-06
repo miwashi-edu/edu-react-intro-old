@@ -1,5 +1,8 @@
 # edu-react-intro
 
+> Starta en react applikation utan script. Detta tjänar till en bra grund om vad som är minimi att förstå av en reakt applikation.
+
+
 ## Instruktioner
 
 ```bash
@@ -8,24 +11,26 @@ cd ws
 mkdir edu-react-intro
 cd edu-react-intro
 npm init -y
-npm i webpack 
-npm i babel-loader 
-npm i @babel/preset-react 
-npm i @babel/core 
-npm i babel-preset-react 
-npm i html-webpack-plugin 
-npm i webpack-dev-server 
-npm i css-loader 
-npm i style-loader 
-npm i @babel/plugin-proposal-class-properties 
-npm i webpack-cli -D
-npm i npm i react react-dom -S
 mkdir src
-touch ./src/index.js
-touch ./src/index.html
-touch .babelrc 
-touch webpack.config.js
-npm pkg set scripts.start="webpack serve --config webpack.config.js"
+touch ./src/{index.js,index.html,App.jsx}
+touch {.babelrc,webpack.config.js}
+npm pkg set scripts.start="webpack-dev-server --mode development --open --hot --port 3000"
+npm pkg set scripts.build="webpack --mode production"
+npm install react
+npm install react-dom
+npm install webpack webpack-cli -D
+npm install html-webpack-plugin -D
+npm install @babel/core  -D
+npm install @babel/preset-env  -D
+npm install @babel/preset-react  -D
+npm install babel-loader -D
+npm install webpack-dev-server -D
+```
+
+## DoD
+
+```bash
+npm start
 ```
 
 ## index.html
@@ -46,42 +51,70 @@ npm pkg set scripts.start="webpack serve --config webpack.config.js"
 </html>
 ```
 
+
 ## index.js
 
 ```js
-import ReactDOM from 'react - dom';
-import React from 'react';
-const App = () => {
-    return <h1>edu-react-intro</h1>;
-}
-ReactDOM.render(<App />, document.getElementById('app'));
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React App</title>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+</html>
+```
+
+## App.jsx
+
+```jsx
+import React from "react";
+
+export default () => {
+    return <h1>WACOCO</h1>
+};
 ```
 
 ## webpack.config.js
 
 ```js
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const htmlPlugin = new HtmlWebPackPlugin({
-    template: "./src/index.html",
-    filename: "./index.html"
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const htmlPlugin = new HtmlWebpackPlugin({
+  template: "./src/index.html",
+  filename: "./index.html",
 });
 
 module.exports = {
-    mode: 'development',
-    module: {
-        rules: [{
-            test: /\.js$/, 
-            exclude: /node_modules/,
-            use: {
-                loader: "babel-loader"
-            }
-        },
-        {
-            test: /\.css$/,
-            use: ["style-loader", "css-loader"]
-        }
-    ]},
-plugins: [htmlPlugin]
+  entry: "./src",
+  output: {
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"],
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ["*", ".js", ".jsx"],
+  },
+  plugins: [htmlPlugin],
 };
 ```
 
@@ -89,7 +122,16 @@ plugins: [htmlPlugin]
 
 ```json
 {
-    "presets": ["@babel/preset-react"],
-    "plugins": ["@babel/plugin-proposal-class-properties"]
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ],
+        "@babel/react"
+    ]
 }
 ```
