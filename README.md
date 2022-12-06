@@ -18,7 +18,8 @@ npm pkg set scripts.start="webpack-dev-server --mode development --open --hot --
 npm pkg set scripts.build="webpack --mode production"
 npm install react
 npm install react-dom
-npm install webpack webpack-cli -D
+npm install webpack -D
+npm install webpack-cli -D
 npm install html-webpack-plugin -D
 npm install @babel/core  -D
 npm install @babel/preset-env  -D
