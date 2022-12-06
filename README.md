@@ -1,6 +1,6 @@
 # edu-react-intro
 
-> Starta en react applikation utan script. Detta tjänar till en bra grund om vad som är minimi att förstå av en reakt applikation.
+> Starta en react applikation utan script. Detta tjänar till en bra grund om vad som är minimi att förstå av en react applikation. Man bör förstå webpack och babel.
 
 
 ## Instruktioner
