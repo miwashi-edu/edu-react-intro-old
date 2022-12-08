@@ -1,7 +1,6 @@
 # edu-react-intro
 
-> Starta en react applikation utan script. Detta tjänar till en bra grund om vad som är minimi att förstå av en react applikation. Man bör förstå webpack och babel.
-
+> Starta en react applikation utan script, och utan babel.
 
 ## Instruktioner
 
@@ -11,21 +10,16 @@ cd ws
 mkdir edu-react-intro
 cd edu-react-intro
 npm init -y
-mkdir src
-touch ./src/{index.js,index.html,App.jsx}
-touch {.babelrc,webpack.config.js}
-npm pkg set scripts.start="webpack-dev-server --mode development --open --hot --port 3000"
-npm pkg set scripts.build="webpack --mode production"
-npm install react
-npm install react-dom
-npm install webpack -D
-npm install webpack-cli -D
-npm install html-webpack-plugin -D
-npm install @babel/core  -D
-npm install @babel/preset-env  -D
-npm install @babel/preset-react  -D
-npm install babel-loader -D
-npm install webpack-dev-server -D
+npm pkg set scripts.start="parcel ./src/app/index.html"
+mkdir -p ./src/app/components
+touch src/app/components/app.tsx
+touch ./src/app/index.html
+touch ./src/app/index.tsx
+touch tsconfig.json
+npm i react 
+npm i react-dom 
+npm i typescript 
+npm i -D parcel-bundler
 ```
 
 ## DoD
@@ -37,18 +31,16 @@ npm start
 ## index.html
 
 ```html
-<!doctype html>
-<html lang=”en”>
-
-<head>
-    <meta charset=”utf-8">
-    <title>edu-react-intro</title>
-</head>
-
-<body>
-    <div id=”app”></div>
-</body>
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+  </head>
+  <body>
+    <div id="mountNode"></div>
+    <script type="module" src="./index.tsx"></script>
+  </body>
 </html>
 ```
 
@@ -72,67 +64,37 @@ npm start
 </html>
 ```
 
-## App.jsx
+## app.tsx
 
-```jsx
-import React from "react";
+```tsx
+import React, { useState } from 'react';
 
-export default () => {
-    return <h1>WACOCO</h1>
-};
+export default function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
 ```
 
-## webpack.config.js
-
-```js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-const htmlPlugin = new HtmlWebpackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html",
-});
-
-module.exports = {
-  entry: "./src",
-  output: {
-    path: path.resolve(__dirname, "public"),
-    filename: "bundle.js",
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
-  },
-  resolve: {
-    extensions: ["*", ".js", ".jsx"],
-  },
-  plugins: [htmlPlugin],
-};
-```
-
-## .babelrc
+## tsconfig.json
 
 ```json
 {
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "node": "current"
-                }
-            }
-        ],
-        "@babel/react"
-    ]
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "outDir": "./build",
+    "skipLibCheck": true,
+    "allowJs": true
+  }
 }
 ```
