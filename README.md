@@ -45,7 +45,7 @@ npm start
 ```
 
 
-## index.js
+## index.ts
 
 ```js
 import React from 'react';
