@@ -48,20 +48,12 @@ npm start
 ## index.js
 
 ```js
-<!DOCTYPE html>
-<html lang="en">
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React App</title>
-</head>
+import App from './components/app';
 
-<body>
-    <div id="app"></div>
-</body>
-
-</html>
+ReactDOM.render(<App />, document.getElementById('mountNode'));
 ```
 
 ## app.tsx
